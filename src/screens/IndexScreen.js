@@ -6,14 +6,10 @@ import { Feather } from '@expo/vector-icons';
 
 const IndexScreen = ({navigation}) => {
 
-	const { state, addBlogPost, deleteBlogPost } = useContext(Context)
+	const { state, deleteBlogPost } = useContext(Context)
 
 	return (
-		<View>			
-			<TouchableOpacity activeOpacity = { .8 } style={styles.buttonStyle} onPress={addBlogPost}>
-				<Text style={styles.buttonTitleStyle}> Add New Blog</Text>
-			</TouchableOpacity>
-			
+		<View>						
 			<FlatList 
 				data={state} 
 				keyExtractor={(blogPost) => blogPost.title} 
@@ -21,11 +17,15 @@ const IndexScreen = ({navigation}) => {
 					return (
 						<TouchableOpacity onPress={() => navigation.navigate('Show' , {id: item.id})} >
 						
-							<View style={styles.row}>
-								<Text style={styles.titleStyle}>{item.title}</Text>														
-								<TouchableOpacity onPress={() => deleteBlogPost(item.id)} >
-									<Feather style={styles.iconStyle} name="trash" />
-								</TouchableOpacity>							
+							<View style={styles.container}>
+								<View style={styles.row}>
+									<Text style={styles.titleStyle}>{item.title}</Text>
+									<TouchableOpacity onPress={() => deleteBlogPost(item.id)} >
+										<Feather style={styles.iconStyle} name="trash" />
+									</TouchableOpacity>							
+								</View>
+								<Text style={styles.contentStyle}>{item.content}</Text>
+
 							</View>
 
 						</TouchableOpacity>
@@ -48,32 +48,27 @@ IndexScreen.navigationOptions = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+	container: {
+		borderBottomWidth: 1,
+		borderColor: 'gray',
+		paddingHorizontal: 15,
+		paddingVertical: 15,
+	},
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		paddingVertical: 15,
-		paddingHorizontal: 15,
-		borderBottomWidth: 1,
-		borderColor: 'gray'
-
 	},
 	titleStyle: {
 		fontSize: 16,
 		fontWeight: 'bold',
 	}, 
+	contentStyle: {
+		fontSize: 16,
+	}, 
+
 	iconStyle: {
 		fontSize: 24,
 	},
-	buttonStyle: {
-	    margin:12,
-    	backgroundColor:'#17537E',
-    	borderRadius:10,
-    	paddingVertical: 15
-	}, 
-	buttonTitleStyle: {
-		color:'#fff',
-      	textAlign:'center',
-	}
 });
 
 export default IndexScreen;
