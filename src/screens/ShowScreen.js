@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Context } from '../context/BlogContext';
+import { EvilIcons } from '@expo/vector-icons';
 
 
 const ShowScreen = ({navigation}) => {
@@ -9,25 +10,43 @@ const ShowScreen = ({navigation}) => {
 
 	const blogPost = state.find((blogPost) => blogPost.id === id);
 	return (
-		<View>			
-			<Text style={styles.titleStyle}>Blog Title</Text>
+		<View style={styles.container}>			
+			<Text style={styles.titleStyle}>Title:</Text>
 			<Text style={styles.subTitleStyle}>{blogPost.title}</Text>
 
+			<Text style={styles.titleStyle}>Content:</Text>
+			<Text style={styles.subTitleStyle}>{blogPost.content}</Text>
 		</View>
 	);
 };
 
+
+ShowScreen.navigationOptions = ({navigation}) => {
+	return {
+    	headerRight: () => (
+      		<TouchableOpacity onPress={() => navigation.navigate('Edit', {id: navigation.getParam('id')})}>
+        		<EvilIcons name="pencil" size={30} />
+      		</TouchableOpacity>
+    	),
+  };
+
+};
+
 const styles = StyleSheet.create({
+	container: {
+		marginLeft: 10,
+		paddingTop: 20,		
+
+	},
 	titleStyle: {
 		fontSize: 16,
 		fontWeight: 'bold',
-		paddingTop: 20,		
-		textAlign: 'center'
 	}, 
 	subTitleStyle: {
 		fontSize: 16,
-		paddingTop: 10,
-		textAlign: 'center'
+		paddingTop: 5,
+		paddingBottom: 20,
+	
 	}, 
 });
 
