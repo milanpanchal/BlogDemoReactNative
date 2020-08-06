@@ -1,18 +1,17 @@
 import React, { useContext } from 'react';
 import { Text, View, StyleSheet, FlatList, Button, TouchableOpacity } from 'react-native';
-import BlogContext from '../context/BlogContext';
+import { Context } from '../context/BlogContext';
 
 const IndexScreen = () => {
 
-	const { data, addBlogPost } = useContext(BlogContext)
-	console.log(data)
+	const { state, addBlogPost } = useContext(Context)
 	return (
 		<View>			
 			<TouchableOpacity activeOpacity = { .8 } style={styles.buttonStyle} onPress={addBlogPost}>
 				<Text style={styles.buttonTitleStyle}> Add New Blog</Text>
 			</TouchableOpacity>
 			<FlatList 
-				data={data} 
+				data={state} 
 				keyExtractor={(blogPost) => blogPost.title} 
 				renderItem={( { item }) => {
 					return <Text style={styles.titleStyle}>{item.title}</Text>
